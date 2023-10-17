@@ -19,14 +19,16 @@ export const accessTokenOptions: ITokenOptions = {
   exprires: new Date(Date.now() + ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000),
   maxAge: ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000,
   httpOnly: true,
-  sameSite: "lax",
+  sameSite: "none",
+  secure: true,
 };
 
 export const refreshTokenOptions: ITokenOptions = {
   exprires: new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000),
   maxAge: REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000,
   httpOnly: true,
-  sameSite: "lax",
+  sameSite: "none",
+  secure: true,
 };
 
 export const sendToken = (user: IUser, statusCode: number, res: Response) => {

@@ -9,13 +9,15 @@ exports.accessTokenOptions = {
     exprires: new Date(Date.now() + ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000),
     maxAge: ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
+    secure: true,
 };
 exports.refreshTokenOptions = {
     exprires: new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000),
     maxAge: REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
+    secure: true,
 };
 const sendToken = (user, statusCode, res) => {
     // _id của user sẽ được sign để trở thành Access Token và Refresh Token gửi về Frontend
