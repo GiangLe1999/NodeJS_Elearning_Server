@@ -5,32 +5,32 @@ import { IUser } from "../models/user.model";
 import { redis } from "./redis";
 
 interface ITokenOptions {
-  exprires?: Date;
-  maxAge?: number;
+  expires: Date;
+  maxAge: number;
   httpOnly: boolean;
   sameSite: "lax" | "strict" | "none" | undefined;
   secure?: boolean;
-  domain: string;
+  domain?: string;
 }
 
 const ACCESS_TOKEN_EXPIRE = 5;
 const REFRESH_TOKEN_EXPIRE = 3;
 
 export const accessTokenOptions: ITokenOptions = {
-  // exprires: new Date(Date.now() + ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000),
-  // maxAge: ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000,
+  domain: "next-js-elearning-client.vercel.app",
+  expires: new Date(Date.now() + ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000),
+  maxAge: ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000,
   httpOnly: true,
   sameSite: "none",
-  domain: "next-js-elearning-client.vercel.app",
   secure: true,
 };
 
 export const refreshTokenOptions: ITokenOptions = {
-  // exprires: new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000),
-  // maxAge: REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000,
+  domain: "next-js-elearning-client.vercel.app",
+  expires: new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000),
+  maxAge: REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000,
   httpOnly: true,
   sameSite: "none",
-  domain: "next-js-elearning-client.vercel.app",
   secure: true,
 };
 
