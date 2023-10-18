@@ -9,9 +9,9 @@ export interface IContact {
 
 const contactSchema: Schema<IContact> = new Schema(
   {
-    email: String,
-    problem: String,
-    explain: String,
+    email: { type: String, required: true },
+    problem: { type: String, required: true },
+    explain: { type: String, required: true },
   },
   { timestamps: true }
 );
