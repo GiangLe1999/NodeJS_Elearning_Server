@@ -40,12 +40,6 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
   //   Upload session lên Redis mỗi khi user login
   redis.set(user._id, JSON.stringify(user) as any);
 
-  //   Chỉ set secure bằng true khi ở Production
-  if (process.env.NODE_ENV === "production") {
-    accessTokenOptions.secure = true;
-    refreshTokenOptions.secure = true;
-  }
-
   //   Set cookie cho response
   res
     .cookie("access_token", accessToken)

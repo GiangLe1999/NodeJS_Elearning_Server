@@ -25,11 +25,6 @@ const sendToken = (user, statusCode, res) => {
     const refreshToken = user.SignRefreshToken();
     //   Upload session lên Redis mỗi khi user login
     redis_1.redis.set(user._id, JSON.stringify(user));
-    //   Chỉ set secure bằng true khi ở Production
-    if (process.env.NODE_ENV === "production") {
-        exports.accessTokenOptions.secure = true;
-        exports.refreshTokenOptions.secure = true;
-    }
     //   Set cookie cho response
     res
         .cookie("access_token", accessToken)
