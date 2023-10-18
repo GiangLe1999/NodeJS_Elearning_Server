@@ -6,14 +6,14 @@ const redis_1 = require("./redis");
 const ACCESS_TOKEN_EXPIRE = 5;
 const REFRESH_TOKEN_EXPIRE = 3;
 exports.accessTokenOptions = {
-    exprires: new Date(Date.now() + ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000),
+    expires: new Date(Date.now() + ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000),
     maxAge: ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000,
     httpOnly: true,
     sameSite: "none",
     secure: true,
 };
 exports.refreshTokenOptions = {
-    exprires: new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000),
     maxAge: REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000,
     httpOnly: true,
     sameSite: "none",
@@ -31,8 +31,12 @@ const sendToken = (user, statusCode, res) => {
         exports.refreshTokenOptions.secure = true;
     }
     //   Set cookie cho response
-    res.cookie("access_token", accessToken);
-    res.cookie("refresh_token", refreshToken);
+    res
+        .cookie("access_token", accessToken)
+        .header("Access-Control-Allow-Credentials", "true");
+    res
+        .cookie("refresh_token", refreshToken)
+        .header("Access-Control-Allow-Credentials", "true");
     res.status(statusCode).json({
         success: true,
         user,
