@@ -212,8 +212,12 @@ export const updateAccessToken = CatchAsyncErrors(
 
       req.user = user;
 
-      res.cookie("access_token", accessToken, accessTokenOptions);
-      res.cookie("refresh_token", refreshToken, refreshTokenOptions);
+      res
+        .cookie("access_token", accessToken, accessTokenOptions)
+        .header("Access-Control-Allow-Credentials", "true");
+      res
+        .cookie("refresh_token", refreshToken, refreshTokenOptions)
+        .header("Access-Control-Allow-Credentials", "true");
 
       // Expire after 7 days
       await redis.set(user._id, JSON.stringify(user), "EX", 604800);

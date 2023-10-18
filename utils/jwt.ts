@@ -17,7 +17,6 @@ const ACCESS_TOKEN_EXPIRE = 5;
 const REFRESH_TOKEN_EXPIRE = 3;
 
 export const accessTokenOptions: ITokenOptions = {
-  domain: "next-js-elearning-client.vercel.app",
   expires: new Date(Date.now() + ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000),
   maxAge: ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000,
   httpOnly: true,
@@ -26,7 +25,6 @@ export const accessTokenOptions: ITokenOptions = {
 };
 
 export const refreshTokenOptions: ITokenOptions = {
-  domain: "next-js-elearning-client.vercel.app",
   expires: new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000),
   maxAge: REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000,
   httpOnly: true,
@@ -49,8 +47,12 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
   }
 
   //   Set cookie cho response
-  res.cookie("access_token", accessToken);
-  res.cookie("refresh_token", refreshToken);
+  res
+    .cookie("access_token", accessToken)
+    .header("Access-Control-Allow-Credentials", "true");
+  res
+    .cookie("refresh_token", refreshToken)
+    .header("Access-Control-Allow-Credentials", "true");
 
   res.status(statusCode).json({
     success: true,

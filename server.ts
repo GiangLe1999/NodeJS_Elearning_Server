@@ -5,8 +5,6 @@ import http from "http";
 
 require("dotenv").config();
 
-const server = http.createServer(app);
-
 // Cloudinary config
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
