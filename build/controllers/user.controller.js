@@ -127,8 +127,8 @@ exports.updateAccessToken = (0, catchAsyncErrors_1.CatchAsyncErrors)(async (req,
         // Tạo Refresh Token mới
         const refreshToken = jsonwebtoken_1.default.sign({ id: user._id }, process.env.REFRESH_TOKEN, { expiresIn: "3d" });
         req.user = user;
-        res.cookie("access_token", accessToken, jwt_1.accessTokenOptions);
-        res.cookie("refresh_token", refreshToken, jwt_1.refreshTokenOptions);
+        res.cookie("access_token", accessToken);
+        res.cookie("refresh_token", refreshToken);
         // Expire after 7 days
         await redis_1.redis.set(user._id, JSON.stringify(user), "EX", 604800);
         next();

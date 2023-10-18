@@ -23,7 +23,10 @@ app.use(cookieParser());
 // Cors
 app.use(
   cors({
-    origin: ["https://next-js-elearning-client.vercel.app"],
+    origin: [
+      "https://next-js-elearning-client.vercel.app",
+      "http://localhost:3000",
+    ],
     credentials: true,
   })
 );
