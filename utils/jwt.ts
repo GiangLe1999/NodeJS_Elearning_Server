@@ -41,12 +41,8 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
   redis.set(user._id, JSON.stringify(user) as any);
 
   //   Set cookie cho response
-  res
-    .cookie("access_token", accessToken)
-    .header("Access-Control-Allow-Credentials", "true");
-  res
-    .cookie("refresh_token", refreshToken)
-    .header("Access-Control-Allow-Credentials", "true");
+  res.cookie("access_token", accessToken, accessTokenOptions);
+  res.cookie("refresh_token", refreshToken, refreshTokenOptions);
 
   res.status(statusCode).json({
     success: true,
