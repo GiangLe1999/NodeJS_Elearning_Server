@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCourseByQuery = exports.getCourseReviews = exports.generateVideoUrl = exports.deleteCourse = exports.getAllCoursesAdmin = exports.addReplyToReview = exports.addReview = exports.addAnswer = exports.addQuestion = exports.getCourseByAdmin = exports.getCourseByUser = exports.getCoursesByCategory = exports.getAllCourses = exports.getSingleCourse = exports.editCourse = exports.uploadCourse = void 0;
+exports.getCourseByQuery = exports.getCourseReviews = exports.generateVideoUrl = exports.deleteCourse = exports.getUserCourses = exports.getAllCoursesAdmin = exports.addReplyToReview = exports.addReview = exports.addAnswer = exports.addQuestion = exports.getCourseByAdmin = exports.getCourseByUser = exports.getCoursesByCategory = exports.getAllCourses = exports.getSingleCourse = exports.editCourse = exports.uploadCourse = void 0;
 const cloudinary_1 = __importDefault(require("cloudinary"));
 const catchAsyncErrors_1 = require("../middleware/catchAsyncErrors");
 const ErrorHandler_1 = __importDefault(require("../utils/ErrorHandler"));
@@ -306,6 +306,21 @@ exports.addReplyToReview = (0, catchAsyncErrors_1.CatchAsyncErrors)(async (req, 
 exports.getAllCoursesAdmin = (0, catchAsyncErrors_1.CatchAsyncErrors)(async (req, res, next) => {
     try {
         const courses = await course_model_1.default.find().sort({ createdAt: -1 });
+        res.status(200).json({ success: true, courses });
+    }
+    catch (error) {
+        return next(new ErrorHandler_1.default(error.message, 400));
+    }
+});
+// Get user's courses
+exports.getUserCourses = (0, catchAsyncErrors_1.CatchAsyncErrors)(async (req, res, next) => {
+    try {
+        const { courseIds } = req.body;
+        const courses = await course_model_1.default.find({ _id: { $in: courseIds } })
+            .sort({
+            createdAt: -1,
+        })
+            .select("_id name purchased price estimatedPrice courseData thumbnail");
         res.status(200).json({ success: true, courses });
     }
     catch (error) {
