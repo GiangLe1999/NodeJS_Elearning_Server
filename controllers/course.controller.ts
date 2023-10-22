@@ -467,6 +467,24 @@ export const getAllCoursesAdmin = CatchAsyncErrors(
   }
 );
 
+// Get user's courses
+export const getUserCourses = CatchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { courseIds } = req.body;
+      const courses = await CourseModel.find({ _id: { $in: courseIds } })
+        .sort({
+          createdAt: -1,
+        })
+        .select("_id name purchased price estimatedPrice courseData thumbnail");
+
+      res.status(200).json({ success: true, courses });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
 // Delete course
 export const deleteCourse = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {

@@ -15,6 +15,7 @@ import {
   getCourseReviews,
   getCoursesByCategory,
   getSingleCourse,
+  getUserCourses,
   uploadCourse,
 } from "../controllers/course.controller";
 import { authorizeRoles, isAuthenticated } from "../middleware/auth";
@@ -89,6 +90,13 @@ courseRouter.get(
   isAuthenticated,
   authorizeRoles("admin"),
   getAllCoursesAdmin
+);
+
+courseRouter.post(
+  "/get-user-courses",
+  updateAccessToken,
+  isAuthenticated,
+  getUserCourses
 );
 
 courseRouter.get("/get-reviews/:courseId", getCourseReviews);
