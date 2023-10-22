@@ -40,7 +40,17 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
   //   Upload session lên Redis mỗi khi user login
   redis.set(user._id, JSON.stringify(user) as any);
 
-  //   Set cookie cho response
+  res.setHeader("Access-Control-Allow-Credentials", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
+
   res.cookie("access_token", accessToken, accessTokenOptions);
   res.cookie("refresh_token", refreshToken, refreshTokenOptions);
 
