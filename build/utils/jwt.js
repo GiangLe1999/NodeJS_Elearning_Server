@@ -9,14 +9,14 @@ exports.accessTokenOptions = {
     expires: new Date(Date.now() + ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000),
     maxAge: ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
     secure: true,
 };
 exports.refreshTokenOptions = {
     expires: new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000),
     maxAge: REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
     secure: true,
 };
 const sendToken = (user, statusCode, res) => {
@@ -25,8 +25,16 @@ const sendToken = (user, statusCode, res) => {
     const refreshToken = user.SignRefreshToken();
     //   Upload session lên Redis mỗi khi user login
     redis_1.redis.set(user._id, JSON.stringify(user));
-    res.cookie("access_token", accessToken, exports.accessTokenOptions);
-    res.cookie("refresh_token", refreshToken, exports.refreshTokenOptions);
+    res.cookie("access_token", accessToken, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+    });
+    res.cookie("refresh_token", refreshToken, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+    });
     res.status(statusCode).json({
         success: true,
         user,

@@ -24,7 +24,10 @@ exports.app.use(express_1.default.json({ limit: "50mb" }));
 exports.app.use((0, cookie_parser_1.default)());
 // Cors
 exports.app.use((0, cors_1.default)({
-    origin: ["https://next-js-elearning-client.vercel.app"],
+    origin: [
+        "https://next-js-elearning-client.vercel.app",
+        "http://localhost:3000",
+    ],
     credentials: true,
 }));
 // Rate limit
