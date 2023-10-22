@@ -19,17 +19,17 @@ const REFRESH_TOKEN_EXPIRE = 3;
 export const accessTokenOptions: ITokenOptions = {
   expires: new Date(Date.now() + ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000),
   maxAge: ACCESS_TOKEN_EXPIRE * 60 * 60 * 1000,
-  // httpOnly: true,
-  // sameSite: "none",
-  // secure: true,
+  httpOnly: true,
+  sameSite: "none",
+  secure: true,
 };
 
 export const refreshTokenOptions: ITokenOptions = {
   expires: new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000),
   maxAge: REFRESH_TOKEN_EXPIRE * 24 * 60 * 60 * 1000,
-  // httpOnly: true,
-  // sameSite: "none",
-  // secure: true,
+  httpOnly: true,
+  sameSite: "none",
+  secure: true,
 };
 
 export const sendToken = (user: IUser, statusCode: number, res: Response) => {
