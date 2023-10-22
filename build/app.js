@@ -18,6 +18,7 @@ const express_rate_limit_1 = require("express-rate-limit");
 const contact_route_1 = require("./routes/contact.route");
 require("dotenv").config();
 exports.app = (0, express_1.default)();
+exports.app.set("trust proxy", 1);
 // Body parser
 exports.app.use(express_1.default.json({ limit: "50mb" }));
 // Cookie parser dùng để parse cookie từ Frontend gửi về Backend

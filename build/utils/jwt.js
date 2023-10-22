@@ -25,16 +25,12 @@ const sendToken = (user, statusCode, res) => {
     const refreshToken = user.SignRefreshToken();
     //   Upload session lên Redis mỗi khi user login
     redis_1.redis.set(user._id, JSON.stringify(user));
-    res.cookie("access_token", accessToken, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-    });
-    res.cookie("refresh_token", refreshToken, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-    });
+    res
+        .cookie("access_token", accessToken, exports.accessTokenOptions)
+        .header("Access-Control-Allow-Credentials", "true");
+    res
+        .cookie("refresh_token", refreshToken, exports.refreshTokenOptions)
+        .header("Access-Control-Allow-Credentials", "true");
     res.status(statusCode).json({
         success: true,
         user,
