@@ -22,22 +22,12 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 
 // Cors
-const whitelist = [
-  "http://localhost:3000",
-  "https://next-js-elearning-client.vercel.app",
-];
-const corsOptions = {
-  credentials: true,
-  origin: function (origin: any, callback: any) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: ["https://next-js-elearning-client.vercel.app"],
+    credentials: true,
+  })
+);
 
 // Rate limit
 const limiter = rateLimit({

@@ -23,22 +23,10 @@ exports.app.use(express_1.default.json({ limit: "50mb" }));
 // Cookie parser dùng để parse cookie từ Frontend gửi về Backend
 exports.app.use((0, cookie_parser_1.default)());
 // Cors
-const whitelist = [
-    "http://localhost:3000",
-    "https://next-js-elearning-client.vercel.app",
-];
-const corsOptions = {
+exports.app.use((0, cors_1.default)({
+    origin: ["https://next-js-elearning-client.vercel.app"],
     credentials: true,
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-        }
-        else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-};
-exports.app.use((0, cors_1.default)(corsOptions));
+}));
 // Rate limit
 const limiter = (0, express_rate_limit_1.rateLimit)({
     windowMs: 15 * 60 * 1000,
