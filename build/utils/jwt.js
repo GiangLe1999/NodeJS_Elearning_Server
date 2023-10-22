@@ -24,13 +24,9 @@ const sendToken = (user, statusCode, res) => {
     const accessToken = user.SignAccessToken();
     const refreshToken = user.SignRefreshToken();
     //   Upload session lên Redis mỗi khi user login
+    res.cookie("access_token", accessToken, exports.accessTokenOptions);
+    res.cookie("refresh_token", refreshToken, exports.refreshTokenOptions);
     redis_1.redis.set(user._id, JSON.stringify(user));
-    res
-        .cookie("access_token", accessToken, exports.accessTokenOptions)
-        .header("Access-Control-Allow-Credentials", "true");
-    res
-        .cookie("refresh_token", refreshToken, exports.refreshTokenOptions)
-        .header("Access-Control-Allow-Credentials", "true");
     res.status(statusCode).json({
         success: true,
         user,

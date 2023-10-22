@@ -38,14 +38,11 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
   const refreshToken = user.SignRefreshToken();
 
   //   Upload session lên Redis mỗi khi user login
-  redis.set(user._id, JSON.stringify(user) as any);
 
-  res
-    .cookie("access_token", accessToken, accessTokenOptions)
-    .header("Access-Control-Allow-Credentials", "true");
-  res
-    .cookie("refresh_token", refreshToken, refreshTokenOptions)
-    .header("Access-Control-Allow-Credentials", "true");
+  res.cookie("access_token", accessToken, accessTokenOptions);
+  res.cookie("refresh_token", refreshToken, refreshTokenOptions);
+
+  redis.set(user._id, JSON.stringify(user) as any);
 
   res.status(statusCode).json({
     success: true,

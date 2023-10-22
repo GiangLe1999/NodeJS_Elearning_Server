@@ -89,7 +89,17 @@ exports.loginUser = (0, catchAsyncErrors_1.CatchAsyncErrors)(async (req, res, ne
         if (!isPasswordMatch) {
             return next(new ErrorHandler_1.default("Invalid password", 400));
         }
-        (0, jwt_1.sendToken)(user, 200, res);
+        const accessToken = user.SignAccessToken();
+        const refreshToken = user.SignRefreshToken();
+        //   Upload session lên Redis mỗi khi user login
+        redis_1.redis.set(user._id, JSON.stringify(user));
+        res.cookie("access_token", accessToken, jwt_1.accessTokenOptions);
+        res.cookie("refresh_token", refreshToken, jwt_1.refreshTokenOptions);
+        res.status(200).json({
+            success: true,
+            user,
+            accessToken,
+        });
     }
     catch (error) {
         return next(new ErrorHandler_1.default(error.message, 400));

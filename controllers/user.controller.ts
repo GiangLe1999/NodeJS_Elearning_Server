@@ -150,7 +150,20 @@ export const loginUser = CatchAsyncErrors(
         return next(new ErrorHandler("Invalid password", 400));
       }
 
-      sendToken(user, 200, res);
+      const accessToken = user.SignAccessToken();
+      const refreshToken = user.SignRefreshToken();
+
+      //   Upload session lên Redis mỗi khi user login
+      redis.set(user._id, JSON.stringify(user) as any);
+
+      res.cookie("access_token", accessToken, accessTokenOptions);
+      res.cookie("refresh_token", refreshToken, refreshTokenOptions);
+
+      res.status(200).json({
+        success: true,
+        user,
+        accessToken,
+      });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
     }
