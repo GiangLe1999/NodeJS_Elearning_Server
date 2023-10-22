@@ -10,7 +10,7 @@ const user_controller_1 = require("../controllers/user.controller");
 const courseRouter = express_1.default.Router();
 courseRouter.post("/create-course", user_controller_1.updateAccessToken, auth_1.isAuthenticated, (0, auth_1.authorizeRoles)("admin"), course_controller_1.uploadCourse);
 courseRouter.put("/edit-course/:id", user_controller_1.updateAccessToken, auth_1.isAuthenticated, (0, auth_1.authorizeRoles)("admin"), course_controller_1.editCourse);
-courseRouter.get("/get-course/:id", course_controller_1.getSingleCourse);
+courseRouter.get("/get-course/:id", user_controller_1.updateAccessToken, course_controller_1.getSingleCourse);
 courseRouter.get("/search-courses/:query", course_controller_1.getCourseByQuery);
 courseRouter.get("/get-courses", course_controller_1.getAllCourses);
 courseRouter.get("/get-courses/:categorySlug", course_controller_1.getCoursesByCategory);

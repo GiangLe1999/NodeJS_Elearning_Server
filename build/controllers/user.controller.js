@@ -89,12 +89,18 @@ exports.loginUser = (0, catchAsyncErrors_1.CatchAsyncErrors)(async (req, res, ne
         if (!isPasswordMatch) {
             return next(new ErrorHandler_1.default("Invalid password", 400));
         }
-        const accessToken = user.SignAccessToken();
-        const refreshToken = user.SignRefreshToken();
-        //   Upload session lên Redis mỗi khi user login
-        redis_1.redis.set(user._id, JSON.stringify(user));
-        res.cookie("access_token", accessToken, jwt_1.accessTokenOptions);
-        res.cookie("refresh_token", refreshToken, jwt_1.refreshTokenOptions);
+        // Tạo Access Token mới
+        const accessToken = jsonwebtoken_1.default.sign({ id: user._id }, process.env.ACCESS_TOKEN, { expiresIn: "5m" });
+        // Tạo Refresh Token mới
+        const refreshToken = jsonwebtoken_1.default.sign({ id: user._id }, process.env.REFRESH_TOKEN, { expiresIn: "3d" });
+        res
+            .cookie("access_token", accessToken, jwt_1.accessTokenOptions)
+            .header("Access-Control-Allow-Credentials", "true");
+        res
+            .cookie("refresh_token", refreshToken, jwt_1.refreshTokenOptions)
+            .header("Access-Control-Allow-Credentials", "true");
+        // Expire after 7 days
+        await redis_1.redis.set(user._id, JSON.stringify(user), "EX", 604800);
         res.status(200).json({
             success: true,
             user,
