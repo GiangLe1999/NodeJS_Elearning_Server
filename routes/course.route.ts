@@ -39,7 +39,7 @@ courseRouter.put(
   editCourse
 );
 
-courseRouter.get("/get-course/:id", updateAccessToken, getSingleCourse);
+courseRouter.get("/get-course/:id", getSingleCourse);
 courseRouter.get("/search-courses/:query", getCourseByQuery);
 
 courseRouter.get("/get-courses", getAllCourses);
